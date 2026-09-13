@@ -28,7 +28,8 @@
         <div class="domanda">{{ testo_domanda }}</div>
         
         <form method="POST">
-            <input type="number" name="risposta" required autofocus autocomplete="off">
+            <!-- Abilitato step="any" per sbloccare i decimali -->
+            <input type="number" step="any" name="risposta" required autofocus autocomplete="off">
             <br><br>
             <button type="submit" name="azione" value="verifica">Sottometti Dati</button>
             {% if modalita != 'competitiva' and not mostra_indizio %}
