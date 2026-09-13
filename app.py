@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for, render_template_string
 import matematica
+import sfida
 import time
 import csv
 import os
@@ -63,6 +64,10 @@ def menu():
         return redirect(url_for('game_router'))
     return render_template('menu.html', username=session['username'], classifica=leggi_classifica())
 
+@app.route('/allena', methods=['GET', 'POST'])
+def game_router():
+    return sfida.gestisci_allenamento(salva_in_classifica)
+
 @app.route('/calcolatrice', methods=['GET', 'POST'])
 def calcolatrice():
     risultato, espressione = "", ""
@@ -83,18 +88,13 @@ def calcolatrice():
     a { display: block; margin-top: 25px; color: #38bdf8; text-decoration: none; font-weight: bold; }
     </style></head><body><div class="box"><h1>🖥️ CALCOLATRICE CORE</h1>
     <form method="POST"><input type="text" name="espressione" value="{{ espressione }}" placeholder="Scrivi qui..." required autocomplete="off"><br><button type="submit">Calcola</button></form>
-    {% if resultado != "" %}<div class="res">RISULTATO: {{ resultado }}</div>{% endif %}<a href="/menu">⬅️ Menu</a></div></body></html>
+    {% if risultato != "" %}<div class="res">RISULTATO: {{ risultato }}</div>{% endif %}<a href="/menu">⬅️ Menu</a></div></body></html>
     """, risultato=risultato, espressione=espressione)
 
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('login'))
-import sfida
-
-@app.route('/allena', methods=['GET', 'POST'])
-def game_router():
-    return sfida.gestisci_allenamento(salva_in_classifica)
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))

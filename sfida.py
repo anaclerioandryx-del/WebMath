@@ -6,7 +6,6 @@ def gestisci_allenamento(salva_classifica_fun):
     if 'username' not in session or 'modalita' not in session: 
         return redirect(url_for('menu'))
     
-    # Se ha perso o finito le domande, mostra la scheda di recupero degli errori
     if session['vite'] <= 0 or session['domanda_attuale'] > session['max_domande']:
         consigli = matematica.ottieni_consiglio_recupero(session.get('errori_partita', []))
         
@@ -43,8 +42,9 @@ def gestisci_allenamento(salva_classifica_fun):
         azione = request.form.get('azione')
         if azione == 'verifica':
             try:
-                val = int(request.form.get('risposta'))
-                esatto = (val == session['corretta']) if session['classe'] == '1' else (val in session['corretta'])
+                # Modificato in float per consentire risposte decimali accurate
+                val = float(request.form.get('risposta'))
+                esatto = (val == float(session['corretta'])) if session['classe'] == '1' else (int(val) in session['corretta'])
                 if esatto:
                     session['punteggio'] += 1
                     session['messaggio'], session['colore_alert'] = "🎉 CORRETTO!", "#10b981"
