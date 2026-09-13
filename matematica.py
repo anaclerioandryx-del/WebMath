@@ -39,9 +39,7 @@ def genera_esercizio(classe):
         return f"Trova una soluzione intera di: x² {termine_b}{termine_c}= 0", [x1, x2], "equazioni_2g"
 
     else:
-        base_rad = random.choice([2, 3, 5, 6])
-        esp_rad = random.choice([4, 6, 8, 10])
-        return f"Porta fuori dal radicale (scrivi l'esponente di {base_rad}): √({base_rad}^{esp_rad})", (esp_rad // 2), "radicali"
+        return "Semplifica il radicale: √(3⁴) = 3^?", 2, "radicali"
 
 def ottieni_consiglio_recupero(argomenti_falliti):
     report = []
@@ -75,7 +73,7 @@ def ottieni_consiglio_recupero(argomenti_falliti):
         elif arg == 'radicali':
             report.append({
                 "titolo": "📝 RIPASSO: Semplificazione di Radicali",
-                "consiglio": "Per portare un fattore fuori dalla radice quadrata, dividi il suo esponente per 2. Es: √(3⁶) diventa 3³.",
+                "consiglio": "Per portare un fattore fuori dalla radice quadrata, dividi il suo esponente per 2. Es: √(3⁶) biases 3³.",
                 "esercizi_extra": ["Semplifica: √(3⁴) = 3²", "Semplifica: √(2¹⁰) = 2⁵"]
             })
     return report

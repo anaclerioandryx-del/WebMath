@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for, render_template_string
-import matematika
+import matematica
 import sfida
 import time
 import csv
@@ -27,16 +27,14 @@ def salva_in_classifica(username, tempo):
         writer.writerows(classifica)
 
 def leggi_utenti():
+    utenti = {"admin": "admin123"}
     if not os.path.exists(USER_FILE) or os.stat(USER_FILE).st_size == 0:
-        return {"admin": "admin123"}
-    utenti = {}
+        return utenti
     with open(USER_FILE, mode='r', newline='', encoding='utf-8') as f:
         reader = csv.reader(f)
         for riga in reader:
             if len(riga) == 2:
                 utenti[riga[0]] = riga[1]
-    if "admin" not in utenti:
-        utenti["admin"] = "admin123"
     return utenti
 
 def salva_nuovo_utente(username, password):
