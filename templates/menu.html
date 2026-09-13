@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>WebMath - Menu</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; text-align: center; background: radial-gradient(circle, #0f172a 0%, #020617 100%); color: #e2e8f0; padding: 40px 10px; }
+        .box { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); padding: 40px; border-radius: 20px; display: inline-block; box-shadow: 0 0 30px rgba(0, 242, 254, 0.15); border: 1px solid rgba(0, 242, 254, 0.3); min-width: 400px; max-width: 600px; }
+        h1 { color: #00f2fe; text-transform: uppercase; }
+        h3 { color: #38bdf8; }
+        .mode-btn { width: 100%; margin: 12px 0; font-size: 16px; padding: 16px; border-radius: 12px; color: white; border: none; cursor: pointer; text-align: left; font-weight: bold; }
+        .btn-pratica { background: linear-gradient(135deg, #1e293b, #10b981); border: 1px solid #10b981; }
+        .btn-normale { background: linear-gradient(135deg, #1e293b, #f59e0b); border: 1px solid #f59e0b; }
+        .btn-competitiva { background: linear-gradient(135deg, #1e293b, #ef4444); border: 1px solid #ef4444; }
+        .podio-table { width: 100%; margin-top: 15px; border-collapse: collapse; background: #0f172a; border-radius: 10px; overflow: hidden; }
+        .podio-table th, .podio-table td { padding: 12px; border-bottom: 1px solid #1e293b; text-align: center; }
+        .podio-table th { background: #1e293b; color: #00f2fe; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>📐 WebMath</h1>
+        <h2>Benvenuto, {{ username }}!</h2>
+        <form method="POST">
+            <p><b>Seleziona Difficoltà:</b><br><br>
+            <input type="radio" name="classe" value="1" id="r1" checked> <label for="r1" style="margin-right:20px;">1° Superiore (Lineare)</label> 
+            <input type="radio" name="classe" value="2" id="r2"> <label for="r2">2° Superiore (Quadratica)</label></p><br>
+            
+            <button type="submit" name="modalita" value="pratica" class="mode-btn btn-pratica">🟢 MODALITÀ PRATICA [15 Domande]</button>
+            <button type="submit" name="modalita" value="normale" class="mode-btn btn-normale">🟡 MODALITÀ NORMALE [20 Domande | ❤️❤️❤️]</button>
+            <button type="submit" name="modalita" value="competitiva" class="mode-btn btn-competitiva">🔴 CORE COMPETITIVO [30 Domande | ❤️❤️❤️ + ⏱️]</button>
+        </form>
+        
+        <h3>🏆 TOP 10 RANKING</h3>
+        <table class="podio-table">
+            <tr><th>Pos</th><th>Cyber-Gamer</th><th>Tempo</th></tr>
+            {% for riga in classifica %}
+            <tr><td style="color:#00f2fe;">{{ loop.index }}°</td><td>{{ riga[0] }}</td><td style="color:#38bdf8;">{{ riga[1] }}s</td></tr>
+            {% else %}
+            <tr><td colspan="3" style="color:#64748b;">Nessun record registrato.</td></tr>
+            {% endfor %}
+        </table>
+        <br><a href="/logout" style="color:#ef4444; font-weight:bold; text-decoration:none;">Esci</a>
+    </div>
+</body>
+</html>
