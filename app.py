@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for, render_template_string
-import matematica
+import matematika
 import sfida
 import time
 import csv
@@ -8,7 +8,7 @@ import os
 app = Flask(__name__)
 app.secret_key = 'webmath_cyber_key_2026'
 CSV_FILE = 'classifica.csv'
-DATABASE_UTENTI = {"admin": "admin123"}
+USER_FILE = 'utenti.csv'
 
 def leggi_classifica():
     if not os.path.exists(CSV_FILE) or os.stat(CSV_FILE).st_size == 0:
@@ -26,6 +26,24 @@ def salva_in_classifica(username, tempo):
         writer = csv.writer(f)
         writer.writerows(classifica)
 
+def leggi_utenti():
+    if not os.path.exists(USER_FILE) or os.stat(USER_FILE).st_size == 0:
+        return {"admin": "admin123"}
+    utenti = {}
+    with open(USER_FILE, mode='r', newline='', encoding='utf-8') as f:
+        reader = csv.reader(f)
+        for riga in reader:
+            if len(riga) == 2:
+                utenti[riga[0]] = riga[1]
+    if "admin" not in utenti:
+        utenti["admin"] = "admin123"
+    return utenti
+
+def salva_nuovo_utente(username, password):
+    with open(USER_FILE, mode='a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow([username, password])
+
 @app.route('/', methods=['GET', 'POST'])
 def login():
     errore, successo = "", ""
@@ -33,16 +51,19 @@ def login():
         tipo = request.form.get('tipo_azione')
         user = request.form.get('username')
         pas = request.form.get('password')
+        
+        database_utenti = leggi_utenti()
+        
         if tipo == 'login':
-            if user in DATABASE_UTENTI and DATABASE_UTENTI[user] == pas:
+            if user in database_utenti and database_utenti[user] == pas:
                 session['username'] = user
                 return redirect(url_for('menu'))
             errore = "Username o Password errati!"
         elif tipo == 'registrazione':
-            if user in DATABASE_UTENTI: errore = "Username già esistente!"
+            if user in database_utenti: errore = "Username già esistente!"
             elif len(user) < 3 or len(pas) < 4: errore = "Dati troppo corti!"
             else:
-                DATABASE_UTENTI[user] = pas
+                salva_nuovo_utente(user, pas)
                 successo = "Account creato! Accedi."
     return render_template('login.html', errore=errore, successo=successo)
 

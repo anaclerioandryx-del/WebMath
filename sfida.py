@@ -42,9 +42,12 @@ def gestisci_allenamento(salva_classifica_fun):
         azione = request.form.get('azione')
         if azione == 'verifica':
             try:
-                # Modificato in float per consentire risposte decimali accurate
                 val = float(request.form.get('risposta'))
-                esatto = (val == float(session['corretta'])) if session['classe'] == '1' else (int(val) in session['corretta'])
+                if session['classe'] == '1':
+                    esatto = (val == float(session['corretta']))
+                else:
+                    esatto = (int(val) in session['corretta'])
+                
                 if esatto:
                     session['punteggio'] += 1
                     session['messaggio'], session['colore_alert'] = "🎉 CORRETTO!", "#10b981"

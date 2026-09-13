@@ -8,7 +8,7 @@ def genera_esercizio(classe):
         
     argomento = random.choice(argomenti)
 
-    if argumento == 'equazioni':
+    if argomento == 'equazioni':
         x_corretta = random.randint(-10, 10)
         a = random.choice([2, 3, 4, 5, -2, -3, -4, -5])
         b = random.randint(-20, 20)
@@ -39,7 +39,9 @@ def genera_esercizio(classe):
         return f"Trova una soluzione intera di: x² {termine_b}{termine_c}= 0", [x1, x2], "equazioni_2g"
 
     else:
-        return "Semplifica il radicale: √(3⁴) = 3^?", 2, "radicali"
+        base_rad = random.choice([2, 3, 5, 6])
+        esp_rad = random.choice([4, 6, 8, 10])
+        return f"Porta fuori dal radicale (scrivi l'esponente di {base_rad}): √({base_rad}^{esp_rad})", (esp_rad // 2), "radicali"
 
 def ottieni_consiglio_recupero(argomenti_falliti):
     report = []
